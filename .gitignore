@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# ML models (generated at runtime)
+ml-service/models/*.pkl
+ml-service/models/*.json
+
+# Docker volumes
+mongodb_data/
+redis_data/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.tgz
+.cache/

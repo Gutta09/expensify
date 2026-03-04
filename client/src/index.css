@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+    --color-border: #e5e5e5;
+  }
+
+  .dark {
+    --color-bg: #0a0a0a;
+    --color-surface: #171717;
+    --color-border: #262626;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-white text-neutral-900 font-sans antialiased;
+  }
+
+  .dark body, body.dark, .dark {
+    @apply bg-neutral-950 text-neutral-100;
+  }
+
+  h1 { @apply text-3xl font-bold tracking-tight; }
+  h2 { @apply text-2xl font-semibold; }
+  h3 { @apply text-xl font-semibold; }
+  h4 { @apply text-lg font-medium; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-neutral-900 text-white px-4 py-2 rounded-lg font-medium
+           hover:bg-neutral-800 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .dark .btn-primary {
+    @apply bg-white text-neutral-900 hover:bg-neutral-200 focus:ring-neutral-600 focus:ring-offset-neutral-900;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-neutral-700 px-4 py-2 rounded-lg font-medium border border-neutral-300
+           hover:bg-neutral-50 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2;
+  }
+  .dark .btn-secondary {
+    @apply bg-neutral-800 text-neutral-200 border-neutral-600 hover:bg-neutral-700 focus:ring-offset-neutral-900;
+  }
+
+  .btn-danger {
+    @apply bg-neutral-900 text-white px-4 py-2 rounded-lg font-medium
+           hover:bg-neutral-800 transition-colors duration-200;
+  }
+  .dark .btn-danger {
+    @apply bg-red-600 hover:bg-red-700;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-neutral-200;
+  }
+  .dark .card {
+    @apply bg-neutral-900 border-neutral-700;
+  }
+
+  .card-header {
+    @apply px-6 py-4 border-b border-neutral-100;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm
+           focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-neutral-900
+           placeholder-neutral-400 transition-colors bg-white;
+  }
+  .dark .input {
+    @apply bg-neutral-800 border-neutral-600 text-neutral-100 placeholder-neutral-500
+           focus:ring-white focus:border-white;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-neutral-700 mb-1;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success { @apply bg-neutral-100 text-neutral-800; }
+  .dark .badge-success { @apply bg-neutral-800 text-neutral-200; }
+  .badge-warning { @apply bg-neutral-200 text-neutral-800; }
+  .dark .badge-warning { @apply bg-neutral-700 text-neutral-200; }
+  .badge-danger { @apply bg-neutral-900 text-white; }
+  .dark .badge-danger { @apply bg-red-600 text-white; }
+  .badge-info { @apply bg-neutral-100 text-neutral-800; }
+  .dark .badge-info { @apply bg-neutral-800 text-neutral-200; }
+  .badge-default { @apply bg-neutral-100 text-neutral-700; }
+  .dark .badge-default { @apply bg-neutral-800 text-neutral-300; }
+
+  .stat-card {
+    @apply card p-6 flex flex-col;
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold text-neutral-900;
+  }
+  .dark .stat-value {
+    @apply text-white;
+  }
+
+  .stat-label {
+    @apply text-sm text-neutral-500 mt-1;
+  }
+
+  .stat-change {
+    @apply text-xs font-medium mt-2 flex items-center gap-1;
+  }
+
+  .anomaly-glow {
+    @apply ring-2 ring-neutral-900 ring-opacity-50;
+  }
+
+  .ai-gradient {
+    background: #171717;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-50 rounded;
+}
+
+.dark ::-webkit-scrollbar-track {
+  @apply bg-neutral-800 rounded;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 rounded hover:bg-neutral-400;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-neutral-600 rounded hover:bg-neutral-500;
+}
+
+/* Budget success progress bar animation */
+@keyframes budget-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.budget-progress-bar {
+  animation: budget-progress 2s linear forwards;
+}
+
+/* iOS Spinner */
+.ios-spinner-blade {
+  position: absolute;
+  top: 4%;
+  left: calc(50% - 1.5px);
+  width: 3px;
+  height: 27%;
+  border-radius: 9999px;
+  background-color: currentColor;
+  opacity: 0.1;
+  transform-origin: center calc(50% / 0.27);
+  animation: ios-spinner-fade 1s linear infinite;
+}
+
+@keyframes ios-spinner-fade {
+  0% { opacity: 1; }
+  100% { opacity: 0.1; }
+}

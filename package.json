@@ -1,0 +1,18 @@
+{
+  "name": "expenseiq",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-Powered Expense Tracker - Monorepo",
+  "scripts": {
+    "dev": "concurrently -n client,server,ml -c cyan,green,magenta \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:ml\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev:ml": "cd ml-service && source venv/bin/activate && python app.py",
+    "install:all": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "seed": "cd server && npm run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
