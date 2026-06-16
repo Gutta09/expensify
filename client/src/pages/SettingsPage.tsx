@@ -32,7 +32,7 @@ export default function SettingsPage() {
   });
   const [connectingAccount, setConnectingAccount] = useState<string | null>(null);
   const [connectedAccounts, setConnectedAccounts] = useState<Record<string, boolean>>({ Google: true, 'Plaid (Bank)': false });
-  const [notifSaving, setNotifSaving] = useState(false);
+  const [, setNotifSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Apply theme on mount and when it changes

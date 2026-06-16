@@ -17,6 +17,8 @@ import {
 import {
   AreaChart,
   Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -27,6 +29,23 @@ import {
   Cell,
 } from 'recharts';
 import { Link } from 'react-router-dom';
+
+const DUMMY_MONTHLY = [
+  { month: 'Jan', total: 2340 },
+  { month: 'Feb', total: 1890 },
+  { month: 'Mar', total: 3120 },
+  { month: 'Apr', total: 2780 },
+  { month: 'May', total: 2100 },
+  { month: 'Jun', total: 2650 },
+];
+
+const DUMMY_BUDGETS = [
+  { category: 'Groceries', limitAmount: 400, currentSpend: 310 },
+  { category: 'Dining', limitAmount: 200, currentSpend: 185 },
+  { category: 'Transport', limitAmount: 150, currentSpend: 60 },
+  { category: 'Entertainment', limitAmount: 100, currentSpend: 94 },
+  { category: 'Shopping', limitAmount: 300, currentSpend: 340 },
+];
 
 const COLORS = ['#171717', '#404040', '#525252', '#737373', '#a3a3a3', '#d4d4d4', '#e5e5e5', '#171717', '#404040', '#525252'];
 
@@ -73,6 +92,32 @@ export default function DashboardPage() {
         <StatCard label="Monthly Income" value={`$${stats.totalIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}`} icon={<TrendingUp className="w-5 h-5" />} />
         <StatCard label="Transactions" value={stats.transactionCount.toString()} icon={<Receipt className="w-5 h-5" />} />
         <StatCard label="Anomalies" value={stats.anomalies.toString()} icon={<AlertTriangle className="w-5 h-5" />} />
+      </div>
+
+      {/* Monthly spending bar chart */}
+      <div className="card p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-neutral-900">Monthly Spending Overview</h3>
+          <span className="text-xs text-neutral-400">Last 6 months</span>
+        </div>
+        <div className="h-52">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={DUMMY_MONTHLY} barSize={28}>
+              <CartesianGrid strokeDasharray="3 3" className="opacity-20" vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v}`} />
+              <Tooltip
+                formatter={(v: number) => [`$${v.toLocaleString()}`, 'Spent']}
+                contentStyle={{ background: 'rgba(255,255,255,0.97)', border: '1px solid #e5e5e5', borderRadius: '10px', fontSize: '12px' }}
+              />
+              <Bar dataKey="total" fill="#171717" radius={[4, 4, 0, 0]}>
+                {DUMMY_MONTHLY.map((_entry, idx) => (
+                  <Cell key={idx} fill={idx === DUMMY_MONTHLY.length - 1 ? '#171717' : '#d4d4d4'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Charts row */}
@@ -134,11 +179,11 @@ export default function DashboardPage() {
             <Link to="/budgets" className="text-xs text-neutral-900 underline">View all</Link>
           </div>
           <div className="space-y-4">
-            {budgets.slice(0, 4).map((budget) => {
+            {(budgets.length > 0 ? budgets.slice(0, 4) : DUMMY_BUDGETS).map((budget: any, i: number) => {
               const pct = Math.min(100, (budget.currentSpend / budget.limitAmount) * 100);
               const isOver = pct >= 100;
               return (
-                <div key={budget._id}>
+                <div key={budget._id ?? i}>
                   <div className="flex items-center justify-between text-xs mb-1">
                     <span className="text-neutral-600">{budget.category}</span>
                     <span className={`font-medium ${isOver ? 'text-neutral-900 font-bold' : 'text-neutral-900'}`}>
@@ -146,12 +191,11 @@ export default function DashboardPage() {
                     </span>
                   </div>
                   <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full transition-all bg-neutral-900" style={{ width: `${Math.min(pct, 100)}%`, opacity: isOver ? 1 : pct >= 80 ? 0.7 : 0.4 }} />
+                    <div className="h-full rounded-full transition-all" style={{ width: `${Math.min(pct, 100)}%`, background: isOver ? '#ef4444' : pct >= 80 ? '#f59e0b' : '#171717', opacity: isOver ? 1 : pct >= 80 ? 0.85 : 0.5 }} />
                   </div>
                 </div>
               );
             })}
-            {budgets.length === 0 && <p className="text-xs text-neutral-400 text-center py-4">No budgets set yet</p>}
           </div>
         </div>
 
